@@ -28,7 +28,8 @@ Fetal movement is an important indicator of fetal well-being and underpins routi
 │   ├── flame_us_pipeline.jpg          # FLAME-US dataset curation pipeline
 │   ├── flame_us_correlation.jpg       # ALR vs. fetal-rotation correlation
 │   └── flame_us_alr_qualitative.jpg   # Qualitative static vs. moving ALR behaviour
-└── paper.pdf                # FetalSense camera-ready PDF
+├── paper.pdf                 # FetalSense camera-ready PDF
+└── flame_us_paper.pdf        # FLAME-US dataset paper PDF
 ```
 
 ## To Publish on GitHub Pages
@@ -40,6 +41,5 @@ Fetal movement is an important indicator of fetal well-being and underpins routi
 ## To Do Before Publishing
 
 - [ ] Confirm the target venue/conference and replace the "Preprint" label in `index.html` and the BibTeX entries.
-- [ ] Add a direct link/PDF for the FLAME-US dataset paper once it is compiled (the "FLAME-US dataset" button currently jumps to the in-page section).
 - [ ] Add a code/dataset release link once available (currently noted as "to be released" in the paper text).
 - [ ] Double-check author emails and affiliations in the footer.
