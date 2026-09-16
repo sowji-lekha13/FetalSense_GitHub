@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FetalSense — Anatomy-Guided Fetal–Probe Motion Disentanglement</title>
+    <meta name="description" content="FetalSense: Anatomy-Guided Fetal–Probe Motion Disentanglement in Freehand Ultrasound, built on the FLAME-US dataset engineering framework.">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Fallback styles in case CSS file doesn't load -->
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1f2937; margin: 0; }
+        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4rem 2rem; text-align: center; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+        .btn { display: inline-block; padding: 10px 20px; background: white; color: #667eea; text-decoration: none; border-radius: 5px; margin: 5px; font-weight: bold; }
+        .section { padding: 4rem 0; }
+        .img-box { text-align: center; margin: 2rem 0; }
+        .main-img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .caption { text-align: center; color: #6b7280; font-style: italic; margin-top: 1rem; font-size: 0.95rem; }
+        h2 { font-size: 2rem; color: #1f2937; text-align: center; margin-bottom: 2rem; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .card { background: #f9fafb; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb; }
+        @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <h1>FetalSense: Anatomy-Guided Fetal&ndash;Probe Motion Disentanglement in Freehand Ultrasound</h1>
+            <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">Preprint &middot; Built on the FLAME-US dataset engineering framework</p>
+
+            <div class="authors">
+                <span class="author">Sowjanya Balaji<sup>1&#8902;</sup></span>,
+                <span class="author">Anusha A<sup>1&#8902;</sup></span>,
+                <span class="author">Keerthi Ram<sup>3</sup></span>,
+                <span class="author">Shyam Ayyasamy<sup>2</sup></span>,
+                <span class="author">Suresh Seshadri<sup>4</sup></span>,
+                <span class="author">Manojkumar Lakshmanan<sup>2</sup></span>,
+                <span class="author">Mohanasankar Sivaprakasam<sup>1</sup></span>
+            </div>
+
+            <div class="affiliations">
+                <p><sup>1</sup>Department of Electrical Engineering, IIT Madras (IITM), India</p>
+                <p><sup>2</sup>Healthcare Technology Innovation Centre (HTIC), IITM, India</p>
+                <p><sup>3</sup>Sudha Gopalakrishnan Brain Centre, IITM, India</p>
+                <p><sup>4</sup>MediScan Systems, Chennai, India</p>
+                <p><sup>&#8902;</sup>Equal contribution</p>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <a href="paper.pdf" target="_blank" rel="noopener noreferrer" class="btn">📄 Read the paper</a>
+                <a href="#flame-us" class="btn">🧬 FLAME-US dataset</a>
+                <a href="https://igrs.hticlab.org/htic-home" class="btn" target="_blank" rel="noopener noreferrer">🔗 IGRS Lab</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Abstract -->
+    <section class="section">
+        <div class="container">
+            <h2>Abstract</h2>
+            <p style="max-width: 900px; margin: 0 auto; font-size: 1.1rem; text-align: center; color: #4b5563;">
+                Fetal movement is an important indicator of fetal well-being and underpins routine obstetric ultrasound (US) tasks such as biometric assessment and standard-plane acquisition. Accurate motion estimation is therefore essential for both clinical analysis and autonomous US systems. However, anatomical changes observed in freehand US image sequences arise from the combined effects of fetal and probe motion, creating a motion ambiguity that makes fetal-motion estimation inherently ill-posed. To address this challenge, we introduce <strong>FetalSense</strong>, a framework for disentangling fetal and probe motion from US image pairs. FetalSense is trained using simulation-derived SE(3) pose supervision for both the fetus and probe, while requiring only US images and tracked probe motion at inference. We further introduce <strong>Anatomical Landmark Displacements (ALDs)</strong>, an image-derived signal of fetal motion based on temporal changes in fetal anatomy, thereby providing supervision without requiring fetal-pose measurements at deployment. FetalSense combines a probe-pose-conditioned image encoder with an ALD-guided landmark stream to enable explicit motion decomposition. Evaluated on a large-scale fetal US motion dataset, FetalSense achieves a mean fetal displacement error of <strong>1.56&nbsp;mm</strong> and a decomposition closure error of <strong>0.69&nbsp;mm</strong>. The learned fetal-motion representation further supports motion-state classification, achieving <strong>94.1% accuracy</strong> and <strong>96.7% F1-score</strong> for significant fetal-movement detection. By jointly introducing fetal&ndash;probe motion disentanglement and ALDs as an image-derived motion cue, FetalSense establishes a foundation for motion-aware fetal US analysis and autonomous US navigation.
+            </p>
+        </div>
+    </section>
+
+    <!-- Highlights -->
+    <section class="section" style="background: #f9fafb; padding-top: 0;">
+        <div class="container">
+            <div class="grid-3">
+                <div class="card" style="text-align:center;">
+                    <h3 style="color:#667eea; margin-bottom: 0.25rem;">1.56 mm</h3>
+                    <p style="color:#6b7280; margin:0;">Mean fetal displacement error</p>
+                </div>
+                <div class="card" style="text-align:center;">
+                    <h3 style="color:#667eea; margin-bottom: 0.25rem;">0.69 mm</h3>
+                    <p style="color:#6b7280; margin:0;">Decomposition closure error</p>
+                </div>
+                <div class="card" style="text-align:center;">
+                    <h3 style="color:#667eea; margin-bottom: 0.25rem;">94.1% / 96.7%</h3>
+                    <p style="color:#6b7280; margin:0;">Motion-state accuracy / F1</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method Overview -->
+    <section class="section">
+        <div class="container">
+            <h2>Method Overview</h2>
+            <div class="img-box">
+                <img src="images/fig1_architecture.jpg" alt="FetalSense Architecture" class="main-img" onerror="this.style.display='none'">
+                <p class="caption">Fig. 1: Overview of FetalSense. <strong>(A) Input.</strong> Consecutive ultrasound frames with probe-, fetal-, and total-motion labels, and Anatomical Landmark Displacements (ALDs). <strong>(B) Image Stream.</strong> A FiLM-conditioned EfficientNet extracts motion features from image pairs conditioned on probe motion. <strong>(C) Landmark Stream.</strong> A visibility-masked landmark encoder extracts anatomy-aware fetal-motion features from ALDs. <strong>(D) Fusion and Prediction Branches.</strong> Features are fused and decoded into total-motion, fetal-motion, and ALD predictions.</p>
+            </div>
+
+            <p style="max-width: 900px; margin: 1rem auto; color: #374151;">
+                In freehand ultrasound, the observed motion between two frames is a superposition of two independent, entangled effects: <em>probe</em> motion across the maternal abdomen and <em>fetal</em> motion within the uterus. Probe motion is externally measurable via tracking, but fetal motion has no analogous sensor and must be inferred from the image itself. FetalSense addresses this by learning to decompose the two effects explicitly rather than treating apparent image motion as fetal motion alone.
+            </p>
+            <div class="grid-2">
+                <div class="card">
+                    <h4>Image Stream with Probe Conditioning</h4>
+                    <p style="color:#4b5563;">Consecutive frames are stacked and encoded with an EfficientNet-B1 backbone. Tracked probe motion is injected at multiple stages via <strong>Feature-wise Linear Modulation (FiLM)</strong>, so the visual embedding is explicitly conditioned on known probe displacement rather than having to infer it implicitly.</p>
+                </div>
+                <div class="card">
+                    <h4>ALD-Guided Landmark Stream</h4>
+                    <p style="color:#4b5563;"><strong>Anatomical Landmark Displacements (ALDs)</strong> are the residual shift between an observed landmark centroid and where that centroid would be if only probe motion had occurred. A visibility-masked MLP encodes these residuals into a compact, anatomy-aware fetal-motion embedding.</p>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 1.5rem;">
+                <h4 style="text-align:center;">Fusion &amp; Private Prediction Branches</h4>
+                <p style="color:#4b5563; text-align:center; max-width: 800px; margin: 0 auto;">
+                    The probe-conditioned image embedding and the landmark embedding are fused and passed to dedicated <strong>total-motion</strong>, <strong>fetal-motion</strong>, and <strong>ALD</strong> heads, jointly optimized end-to-end. At inference, FetalSense needs only the image pair and tracked probe motion &mdash; fetal pose, which is unobservable in the clinic, is never required.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLAME-US Dataset Section -->
+    <section class="section" id="flame-us" style="background: #f9fafb;">
+        <div class="container">
+            <h2>Powered by FLAME-US</h2>
+            <p style="text-align: center; color: #6b7280; max-width: 850px; margin: -1rem auto 2rem;">
+                FetalSense is trained on data engineered by our companion dataset paper, <strong>FLAME-US: A Landmark-Guided Dataset for Quantitative Fetal Motion Analysis in Freehand Ultrasound</strong>, which supplies the disentangled fetal/probe SE(3) supervision and landmark-residual labels that make FetalSense's motion decomposition learnable in the first place.
+            </p>
+
+            <div class="img-box">
+                <img src="images/flame_us_pipeline.jpg" alt="FLAME-US Dataset Curation Pipeline" class="main-img" onerror="this.style.display='none'">
+                <p class="caption">FLAME-US dataset curation pipeline. <strong>(A)</strong> A clinically-grounded fetal motion simulator generates smooth, sinusoidal fetal head motion from expert sonographer feedback. <strong>(B)</strong> Probe trajectories are simulated over real 3-D fetal head US volumes to render 2-D frame sequences. <strong>(C)</strong> Relative fetal, probe, and combined SE(3) motion poses are derived from consecutive frame pairs. <strong>(D)</strong> A dual-head segmentation network extracts fetal head landmarks and their centroids. <strong>(E)</strong> Anatomical Landmark Residuals (ALRs) are computed as the discrepancy between probe-predicted and observed landmark locations, isolating motion caused by the fetus alone.</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h4>Why it's needed</h4>
+                    <p style="color:#4b5563;">Ground-truth fetal pose is never observable in routine clinical scanning, so there was no way to directly supervise fetal-motion estimation. FLAME-US closes this gap by simulating independent, clinically plausible fetal and probe motion on top of <strong>25 patient-derived 3-D fetal head volumes</strong> (19&ndash;21 gestational weeks), yielding frames with known ground-truth for both motion sources at once.</p>
+                </div>
+                <div class="card">
+                    <h4>What it contains</h4>
+                    <ul>
+                        <li><strong>10,000</strong> motion trajectories, ~773,000 annotated frames</li>
+                        <li>Paired fetal &amp; probe <strong>SE(3)</strong> pose labels per frame</li>
+                        <li><strong>7</strong> Anatomical Landmark Residuals (ALRs) per frame</li>
+                        <li>Dual-head U-Net segmentation for low- and high-contrast structures</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="img-box">
+                <img src="images/flame_us_correlation.jpg" alt="ALRs correlate with fetal motion magnitude" class="main-img" onerror="this.style.display='none'">
+                <p class="caption">ALRs as an indicator of fetal head motion. <em>Left:</em> ALRs correlate strongly with fetal rotation (Pearson <em>r</em>&nbsp;=&nbsp;0.74, <em>p</em>&nbsp;&lt;&nbsp;0.001) and only weakly with probe translation (<em>r</em>&nbsp;=&nbsp;0.29). <em>Centre:</em> mean residual increases monotonically across fetal-rotation quintiles. <em>Right:</em> the seven high-visibility, motion-sensitive landmarks (hemispheres, midline falx, anterior horns of the lateral ventricles, inner/outer calvarium) selected for residual estimation.</p>
+            </div>
+
+            <div class="img-box">
+                <img src="images/flame_us_alr_qualitative.jpg" alt="Qualitative ALR behaviour under static vs. moving fetus" class="main-img" onerror="this.style.display='none'">
+                <p class="caption">Qualitative behaviour of Anatomical Landmark Residuals. When the fetus is static and only the probe moves, predicted and observed landmark positions coincide and residuals stay near-zero (top). When the fetus is also moving, residuals grow substantially across all retained landmarks (bottom), confirming that ALRs isolate fetal-specific motion rather than probe-induced appearance change.</p>
+            </div>
+
+            <p style="text-align:center; color:#6b7280; max-width: 850px; margin: 1.5rem auto 0;">
+                Together, FLAME-US and FetalSense form a single pipeline: FLAME-US <em>engineers</em> the explicit fetal-motion supervision that clinical scanning cannot provide, and FetalSense <em>learns</em> from it to decompose fetal and probe motion using only images and tracked probe pose &mdash; the only inputs available at real deployment time.
+            </p>
+        </div>
+    </section>
+
+    <!-- Results & Tasks -->
+    <section class="section">
+        <div class="container">
+            <h2>Results</h2>
+
+            <!-- Motion decomposition -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3 style="color: #2563eb; text-align: center;">Motion Decomposition vs. Baselines</h3>
+                <p style="text-align: center; margin-bottom: 1rem;">FetalSense achieves the lowest fetal error, lowest closure error, and highest motion-state accuracy among all compared methods.</p>
+                <div style="overflow-x:auto;">
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                        <tr style="background: #e5e7eb;">
+                            <th style="padding: 8px; text-align: left;">Method</th>
+                            <th style="padding: 8px;">Fetal Error (mm) ↓</th>
+                            <th style="padding: 8px;">Closure Error (mm) ↓</th>
+                            <th style="padding: 8px;">Accuracy (%) ↑</th>
+                        </tr>
+                        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;">Image Stream only</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">3.81</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">7.89</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">27.86</td></tr>
+                        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;">LightGlue</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">5.16</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">6.31</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">56.00</td></tr>
+                        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;">CURL (fine-tuned)</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">2.95</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">3.69</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">63.38</td></tr>
+                        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;">RAFT + Probe Subtraction</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">4.19</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">4.33</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">70.65</td></tr>
+                        <tr style="font-weight:700; background:#eef2ff;"><td style="padding: 8px;">FetalSense (Ours)</td><td style="padding: 8px; text-align:center;">1.56</td><td style="padding: 8px; text-align:center;">0.69</td><td style="padding: 8px; text-align:center;">94.12</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Ablation -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3 style="color: #2563eb; text-align: center;">Ablation Study</h3>
+                <p style="text-align: center; margin-bottom: 1rem;">Private pose heads give the largest single improvement; FiLM conditioning further reduces fetal error; the ALD loss is what resolves closure consistency.</p>
+                <div style="overflow-x:auto;">
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.92rem;">
+                        <tr style="background: #e5e7eb;">
+                            <th style="padding: 8px; text-align: left;">Configuration</th>
+                            <th style="padding: 8px;">F.E. (mm)</th>
+                            <th style="padding: 8px;">T.E. (mm)</th>
+                            <th style="padding: 8px;">C.E. (mm)</th>
+                            <th style="padding: 8px;">Cosine Sim.</th>
+                        </tr>
+                        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;">Image Stream Only</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">3.81 ± 2.8</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">2.7 ± 1.3</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">7.89 ± 5.9</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">&minus;0.19</td></tr>
+                        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;">Dual Stream + Shared Branches</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">3.35 ± 2.7</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">3.08 ± 1.6</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">7.58 ± 6.3</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">&minus;0.21</td></tr>
+                        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;">Dual Stream + Private Branches</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">1.95 ± 1.9</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">2.46 ± 1.6</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">4.27 ± 4.1</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">&minus;0.16</td></tr>
+                        <tr><td style="padding: 8px; border-bottom: 1px solid #ddd;">+ FiLM</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">1.67 ± 1.1</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">1.75 ± 1.7</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">4.42 ± 4.6</td><td style="padding: 8px; border-bottom: 1px solid #ddd; text-align:center;">&minus;0.23</td></tr>
+                        <tr style="font-weight:700; background:#eef2ff;"><td style="padding: 8px;">FetalSense (+ ALD loss, Ours)</td><td style="padding: 8px; text-align:center;">1.56 ± 1.8</td><td style="padding: 8px; text-align:center;">1.77 ± 1.7</td><td style="padding: 8px; text-align:center;">0.69 ± 1.4</td><td style="padding: 8px; text-align:center;">&minus;0.15</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Fig 2 -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <h3 style="color: #2563eb; text-align: center;">Motion Representation Analysis</h3>
+                <div class="img-box" style="margin: 0.5rem 0;">
+                    <img src="images/fig2_motion_decomposition.jpg" alt="Motion decomposition analysis" class="main-img" onerror="this.style.display='none'">
+                    <p class="caption">Fig. 2: Motion decomposition analysis. (a&ndash;b) Total and fetal motion predictions versus ground truth. (c) Decomposition consistency (median closure error 0.27 mm). (d) Still-fetus predictions remain near-zero for the fetal branch. (e) Inter-branch cosine similarity indicates reduced coupling between branches. (f) Reconstruction and correlation metrics: median errors of 2.18 mm (total) and 0.84 mm (fetal).</p>
+                </div>
+            </div>
+
+            <!-- Fig 3 -->
+            <div class="card">
+                <h3 style="color: #2563eb; text-align: center;">Downstream Motion-State Classification</h3>
+                <p style="text-align: center; margin-bottom: 1rem;">The learned fetal-motion representation reliably flags moving vs. static fetal states &mdash; useful for autonomous US navigation, where probe-control decisions may need to adapt during fetal activity.</p>
+                <div class="img-box" style="margin: 0.5rem 0;">
+                    <img src="images/fig3_motion_state.jpg" alt="Downstream motion-state classification" class="main-img" onerror="this.style.display='none'">
+                    <p class="caption">Fig. 3: Downstream motion-state classification. (a&ndash;c) Ground-truth and predicted states across representative high-, low-, and mid-motion trajectories &mdash; no false negatives observed. (d) Aggregate confusion matrix. (e) Per-trajectory classification performance: high- and mid-motion trajectories reach F1 scores of 98.8% and 97.3% respectively.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Citation -->
+    <section class="section" style="background: #f9fafb;">
+        <div class="container">
+            <h2>Citation</h2>
+            <p style="text-align:center; color:#6b7280; margin-top:-1rem; margin-bottom: 2rem;">If you use FetalSense or the FLAME-US dataset, please cite both papers.</p>
+            <div style="background: #ffffff; padding: 1.5rem 2rem; border-radius: 8px; text-align: center; max-width: 850px; margin: 0 auto 1.5rem; border: 1px solid #e5e7eb;">
+                <p style="text-align:left; font-weight:600; margin-bottom: 0.75rem; color:#374151;">FetalSense</p>
+                <pre style="text-align: left; overflow-x: auto; font-family: monospace; font-size: 0.85rem; margin:0;"><code>@inproceedings{balaji2026fetalsense,
+  title     = {FetalSense: Anatomy-Guided Fetal--Probe Motion
+               Disentanglement in Freehand Ultrasound},
+  author    = {Balaji, Sowjanya and A, Anusha and Ram, Keerthi and
+               Ayyasamy, Shyam and Seshadri, Suresh and
+               Lakshmanan, Manojkumar and Sivaprakasam, Mohanasankar},
+  booktitle = {Preprint},
+  year      = {2026}
+}</code></pre>
+            </div>
+            <div style="background: #ffffff; padding: 1.5rem 2rem; border-radius: 8px; text-align: center; max-width: 850px; margin: 0 auto; border: 1px solid #e5e7eb;">
+                <p style="text-align:left; font-weight:600; margin-bottom: 0.75rem; color:#374151;">FLAME-US (dataset)</p>
+                <pre style="text-align: left; overflow-x: auto; font-family: monospace; font-size: 0.85rem; margin:0;"><code>@inproceedings{balaji2026flameus,
+  title     = {FLAME-US: A Landmark-Guided Dataset for Quantitative
+               Fetal Motion Analysis in Freehand Ultrasound},
+  author    = {Balaji, Sowjanya and A, Anusha and Ram, Keerthi and
+               Ayyasamy, Shyam and Lakshmanan, Manojkumar and
+               Sivaprakasam, Mohanasankar},
+  booktitle = {Preprint},
+  year      = {2026}
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: #1f2937; color: white; text-align: center; padding: 2rem;">
+        <div class="container">
+            <p>&copy; 2026 FetalSense / FLAME-US Team. Healthcare Technology Innovation Centre (HTIC), Image Guided Robotics Systems (IGRS), IIT Madras.</p>
+            <p>Contact: <a href="mailto:ee25s080@smail.iitm.ac.in" style="color: #60a5fa;">ee25s080@smail.iitm.ac.in</a> | <a href="mailto:ee25s083@smail.iitm.ac.in" style="color: #60a5fa;">ee25s083@smail.iitm.ac.in</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>
